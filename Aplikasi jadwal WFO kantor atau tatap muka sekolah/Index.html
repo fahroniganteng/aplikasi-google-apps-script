@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Demo Jadwal</title>
+  <base target="_top">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.4/sweetalert2.min.css" />
+  <style>
+    .jadwal {
+      white-space: pre-line;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="card mt-3">
+      <div class="card-header bg-primary text-light">
+        Demo Jadwal
+      </div>
+      <div class="card-body">
+        <form id="formTanggal" onsubmit="getJadwal();return false;">
+          <div class="mb-3">
+            <label for="tanggal" class="form-label">Tanggal</label>
+            <input type="date" class="form-control" id="tanggal" required>
+          </div>
+          <button type="submit" class="btn btn-primary float-end"><i class="fas fa-search me-2"></i>Cek Jadwal</button>
+        </form>
+      </div>
+    </div>
+    <div class="card my-3" id="jadwal" style="display:none">
+      <div class="card-header">
+        Jadwal
+      </div>
+      <div class="card-body">
+        test
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.4/sweetalert2.all.min.js"></script>
+  <script>
+    var btnHtml;
+    function getJadwal() {
+      let tgl = $('#formTanggal input').val();
+      btnHtml = $('#formTanggal button').html();
+      $('#jadwal').hide();
+      $('#formTanggal button')
+        .html('<i class="fas fa-spinner fa-pulse me-2"></i>Loading...')
+        .attr('disabled', true);
+
+      google.script.run
+        .withSuccessHandler(getJadwalSuccess)
+        .getJadwal(tgl);
+    }
+
+    function getJadwalSuccess(dt) {
+      if (dt) {
+        let jadwal = `<ol class="list-group list-group-numbered list-group-flush">`;
+        $(dt[0]).each(function (i, v) {
+          jadwal += `
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">`+ v + `</div>
+                <div class="jadwal">`+ dt[1][i] + `</div>
+              </div>
+            </li>
+          `;
+        });
+        jadwal += '</ol>';
+        $('#jadwal .card-body').html(jadwal);
+        $('#jadwal').slideDown();
+        $('#formTanggal button')
+          .html(btnHtml)
+          .removeAttr('disabled');
+      }
+      else showError();
+    }
+    function showError() {
+      $('#formTanggal button')
+        .html(btnHtml)
+        .removeAttr('disabled');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Jadwal tidak ditemukan!',
+        confirmButtonText: '<i class="fas fa-check me-2"></i>OK!'
+      })
+    }
+  </script>
+</body>
+
+</html>
