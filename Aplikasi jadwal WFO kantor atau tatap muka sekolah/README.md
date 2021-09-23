@@ -16,8 +16,7 @@ Sharing aplikasi membuat jadwal untuk WFO pada kantor atau tatap muka pada sekol
 [![Part 03 ](http://img.youtube.com/vi/hEBuzPHm9_E/0.jpg)](https://youtu.be/hEBuzPHm9_E)  
 
 #### Part 04 : Menampilkan jadwal pada Bot Telegram dengan Google Apps Script dan BotFather.  
---- segera di upload ---
-
+[![Part 03 ](http://img.youtube.com/vi/mN6dmG7_QV8/0.jpg)](https://youtu.be/mN6dmG7_QV8)  
 
 
 ## Donasi  
